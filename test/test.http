@@ -1,0 +1,35 @@
+//создание пользователя
+POST http://localhost:8080/create HTTP/1.1
+content-type: application/json
+
+{"name":"молоко 3,2","protein":3.0 , "fats":3.2, "carbohydrates": 4.7, "calories": 60.0}
+
+
+###
+//удаление пользователя
+DELETE http://localhost:8080/delete HTTP/1.1
+content-type: application/json
+
+{"target_id":"80"}
+###
+
+//Обновление возраста
+PUT http://localhost:8080/put HTTP/1.1
+content-type: application/json
+
+{"target_id":"80","new_age":"290"}
+###
+
+//получение списка друзей
+GET http://localhost:8080/get_friends HTTP/1.1
+content-type: application/json
+
+{"target_id":"80"}
+###
+
+//подружить
+
+POST http://localhost:8080/make_friends HTTP/1.1
+Content-Type: application/json
+
+{"source_id":"80", "target_id":"82"}
