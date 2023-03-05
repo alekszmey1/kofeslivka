@@ -1,0 +1,26 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Главная страница</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/main.css">
+</head>
+<body class="d-flex h-100 text-center text-bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">КОФЕСЛИВКА</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a aria-current="page" class="nav-link fw-bold py-1 px-0 active" href="/"> Главная </a>
+                <a class="nav-link fw-bold py-1 px-0" href="/contacts"> Контакты </a>
+                <a class="nav-link fw-bold py-1 px-0" href="/create"> Добавить ингредиент в базу  </a>
+            </nav>
+        </div>
+    </header>
+    {{end}}

@@ -21,6 +21,7 @@ func NewRepository() *repository {
 
 // Метод добавления в хранилище новую сущность
 func (r *repository) CreateUser(ingredient *entity.RawMaterial) (int64, error) {
+
 	db, err := sql.Open(s, root)
 	if err != nil {
 		fmt.Println("не получилось открыть базу данных")
