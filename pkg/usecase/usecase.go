@@ -6,11 +6,13 @@ import (
 
 type (
 	Usecase interface {
-		CreateUser(*entity.RawMaterial) (int64, error)
+		AddIngredient(*entity.RawMaterial) (int64, error)
+		MakeDesert(desert *entity.Desert) (string, error)
 	}
 
 	Repository interface {
-		CreateUser(*entity.RawMaterial) (int64, error)
+		AddIngredient(*entity.RawMaterial) (int64, error)
+		MakeDesert(desert *entity.Desert) (string, error)
 	}
 )
 
@@ -24,8 +26,12 @@ func NewUsecase(repository Repository) *usecase {
 	}
 }
 
-func (u *usecase) CreateUser(user *entity.RawMaterial) (int64, error) {
-	uid, error := u.repository.CreateUser(user)
+func (u *usecase) AddIngredient(user *entity.RawMaterial) (int64, error) {
+	uid, error := u.repository.AddIngredient(user)
+	return uid, error
+}
+func (u *usecase) MakeDesert(des *entity.Desert) (string, error) {
+	uid, error := u.repository.MakeDesert(des)
 	return uid, error
 }
 

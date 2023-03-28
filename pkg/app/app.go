@@ -14,10 +14,12 @@ func Run() {
 	controller := controller2.NewController(usecase)
 	//mux := http.NewServeMux()
 	fmt.Println("запуск")
-	//mux.HandleFunc("/create", controller.CreateUser)
+	//mux.HandleFunc("/create", controller.AddIngredient)
 	http.HandleFunc("/", controller.Index)
 	http.HandleFunc("/create", controller.Create)
 	http.HandleFunc("/save_article", controller.SaveArticle)
+	http.HandleFunc("/create_desert", controller.CreateDesert)
+	http.HandleFunc("/add_desert", controller.MakeCake)
 
 	//	mux.HandleFunc("/make_friends", controller.MakeFriends)
 	//	mux.HandleFunc("/delete", controller.DeleteUser)

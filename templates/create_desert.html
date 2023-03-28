@@ -1,0 +1,13 @@
+{{define "create"}}
+{{template "header"}}
+<main class="px-3">
+    <h1 class="cover-heading">форма добавления десерта</h1>
+    <form action="/add_desert" method="post">
+        <input id ="nameDesert" name="nameDesert" placeholder="Введите название десерта" type ="text">
+        <br>
+        <textarea class="form-control" id="list" name="list" placeholder="Введите состав десерта. Пример:сметана 15% 100; сливки 33% 15;"></textarea><br>
+        <button class="btn btn-warning">Добавить</button>
+    </form>
+</main>
+{{template "footer"}}
+{{end}}
