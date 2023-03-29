@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"awesomeProject/kofeslivka/pkg/entity"
+	"log"
 )
 
 type (
@@ -31,6 +32,7 @@ func (u *usecase) AddIngredient(user *entity.RawMaterial) (int64, error) {
 	return uid, error
 }
 func (u *usecase) MakeDesert(des *entity.Desert) (string, error) {
+	log.Println("сработал юскасе македесерт")
 	uid, error := u.repository.MakeDesert(des)
 	return uid, error
 }

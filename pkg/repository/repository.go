@@ -42,6 +42,7 @@ func (r *repository) AddIngredient(ingredient *entity.RawMaterial) (int64, error
 	return ingredient.Id, nil
 }
 func (r *repository) MakeDesert(des *entity.Desert) (string, error) {
+	log.Println("сработал репозиторий MakeDesert")
 	db, err := sql.Open(s, root)
 	if err != nil {
 		fmt.Println("не получилось открыть базу данных")
@@ -52,26 +53,34 @@ func (r *repository) MakeDesert(des *entity.Desert) (string, error) {
 	desert := &entity.RawMaterial{}
 	desert.Name = des.Name
 	for _, ing := range listIng {
-		insert, err := db.Query(fmt.Sprintf("SELECT * FROM `rawmaterial` WHERE `name` LIKE %s", ing.Name))
+		insert, err := db.Query(fmt.Sprintf("SELECT * FROM `rawmaterial` WHERE `name`= '%s'", ing.Name))
 		if err != nil {
 			log.Printf("не получилось получить данные ингредиента")
 		}
 		defer insert.Close()
-		u := entity.RawMaterial{}
 		for insert.Next() {
-			err := insert.Scan(&u)
-			calcCalories(u, *ing, *desert)
-			fmt.Println(u)
+			u := entity.RawMaterial{}
+			err = insert.Scan(&u.Id, &u.Name, &u.Fats, &u.Protein, &u.Carbohydrates, &u.Calories)
+			calcCalories(u, *ing, desert)
 			if err != nil {
 				fmt.Println(err)
 				continue
 			}
 		}
-		fmt.Println(desert)
 	}
+	result, err := db.Exec("insert into deserts (name ,protein, fats, carbohydrates, calories) values (?,?,?,?,?)",
+		desert.Name, twoFloat(desert.Protein), twoFloat(desert.Fats), twoFloat(desert.Carbohydrates), twoFloat(desert.Calories))
+	if err != nil {
+		panic(err)
+	}
+	desert.Id, err = result.LastInsertId()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(desert.Id)
 	return "Десерт добавлен", nil
-
 }
+
 func makeSliceIng(s string) []*entity.IngredientGram {
 	var listIng []*entity.IngredientGram
 	ss := strings.Split(s, ";")
@@ -92,15 +101,23 @@ func stringToIng(s string) (*entity.IngredientGram, error) {
 		log.Println("не получилось обработать грамм")
 	}
 	ss = ss[:len(ss)-1]
-	s2 := strings.Join(ss, " ")
+	s2 := strings.Trim(strings.Join(ss, " "), " ")
 	e.Gram = gram
 	e.Name = s2
 	return e, err
 }
-func calcCalories(u entity.RawMaterial, ing entity.IngredientGram, desert entity.RawMaterial) entity.RawMaterial {
+func calcCalories(u entity.RawMaterial, ing entity.IngredientGram, desert *entity.RawMaterial) *entity.RawMaterial {
+	fmt.Println("десерт на входе")
+	fmt.Println(desert)
 	desert.Fats = desert.Fats + u.Fats/100*ing.Gram
 	desert.Protein = desert.Protein + u.Protein/100*ing.Gram
 	desert.Carbohydrates = desert.Carbohydrates + u.Carbohydrates/100*ing.Gram
 	desert.Calories = desert.Calories + u.Calories/100*ing.Gram
+	fmt.Println("десерт на выходе")
+	fmt.Println(desert)
 	return desert
+}
+func twoFloat(f float64) float64 {
+	f, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", f), 10)
+	return f
 }

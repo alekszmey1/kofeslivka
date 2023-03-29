@@ -57,7 +57,7 @@ func (c *Controller) CreateDesert(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 	}
-	t.ExecuteTemplate(w, "create", nil)
+	t.ExecuteTemplate(w, "create_desert", nil)
 }
 
 func stringToFloat(s string) float64 {
@@ -68,9 +68,10 @@ func stringToFloat(s string) float64 {
 	return result
 }
 func (c *Controller) MakeCake(w http.ResponseWriter, r *http.Request) {
-	var des *entity.Desert
-	des.Name = r.FormValue("nameDesert")
+	des := &entity.Desert{}
+	des.Name = r.FormValue("name_desert")
 	des.List = r.FormValue("list")
+	fmt.Println(des)
 	c.usecase.MakeDesert(des)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
